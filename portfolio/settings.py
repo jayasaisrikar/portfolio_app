@@ -56,6 +56,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Add error handling middleware
+MIDDLEWARE.append('django.middleware.common.BrokenLinkEmailsMiddleware')
+
 ROOT_URLCONF = 'portfolio.urls'
 
 TEMPLATES = [
@@ -81,11 +84,18 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/portfolio',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:' if os.environ.get('VERCEL_ENV') else os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+# Override with DATABASE_URL if provided
+if os.environ.get('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 
 # Disable database during static collection
 if os.environ.get('DISABLE_DATABASE', False):

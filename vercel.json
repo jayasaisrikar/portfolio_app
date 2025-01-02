@@ -10,10 +10,6 @@
                 "installCommand": "curl -sSL https://bootstrap.pypa.io/get-pip.py | python3.9 && python3.9 -m pip install -r requirements.txt",
                 "buildCommand": "DISABLE_DATABASE=True python3.9 manage.py collectstatic --noinput"
             }
-        },
-        {
-            "src": "static/**",
-            "use": "@vercel/static"
         }
     ],
     "routes": [
@@ -22,12 +18,12 @@
             "dest": "/static/$1"
         },
         {
+            "src": "/media/(.*)",
+            "dest": "/media/$1"
+        },
+        {
             "src": "/(.*)",
-            "dest": "portfolio/wsgi.py"
+            "dest": "portfolio/wsgi.application"
         }
-    ],
-    "env": {
-        "PYTHON_VERSION": "3.9",
-        "DISABLE_DATABASE": "False"
-    }
+    ]
 } 

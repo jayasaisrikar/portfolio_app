@@ -9,10 +9,15 @@ from django.core.exceptions import ObjectDoesNotExist
 
 def home(request):
     try:
-        context = {
-            'live_projects': Project.objects.filter(is_live=True).order_by('-created_at')[:3],
-        }
-    except Exception:
+        projects = Project.objects.filter(is_live=True).order_by('-created_at')[:3]
+        # Convert image URLs to absolute URLs if they exist
+        for project in projects:
+            if project.image:
+                project.image.url = request.build_absolute_uri(project.image.url)
+        context = {'live_projects': projects}
+    except Exception as e:
+        if settings.DEBUG:
+            print(f"Error in home view: {e}")
         context = {'live_projects': []}
     return render(request, 'core/home.html', context)
 
