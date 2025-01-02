@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "framework": "other",
     "builds": [
         {
             "src": "portfolio/wsgi.py",
@@ -7,7 +8,7 @@
             "config": { 
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9",
-                "installCommand": "python3.9 -m ensurepip && python3.9 -m pip install -r requirements.txt",
+                "installCommand": "curl -sSL https://bootstrap.pypa.io/get-pip.py | python3.9 && python3.9 -m pip install -r requirements.txt",
                 "buildCommand": "python3.9 manage.py collectstatic --noinput"
             }
         }
