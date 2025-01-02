@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+<div class="about-section">
+    <div class="about-container">
+        <div class="about-header" data-aos="fade-down">
+            <div class="section-title">
+                <span class="bracket">{</span>
+                <h1>About Me</h1>
+                <span class="bracket">}</span>
+            </div>
+        </div>
+        
+        <div class="about-grid">
+            <div class="about-image" data-aos="fade-right">
+                <div class="image-frame">
+                    <img src="{{ about.image.url }}" alt="Profile Picture">
+                    <div class="frame-corner top-left"></div>
+                    <div class="frame-corner top-right"></div>
+                    <div class="frame-corner bottom-left"></div>
+                    <div class="frame-corner bottom-right"></div>
+                </div>
+            </div>
+            
+            <div class="about-content" data-aos="fade-left">
+                <h2>{{ about.title }}</h2>
+                <p class="terminal-text">{{ about.description }}</p>
+                
+                <div class="social-links">
+                    {% if about.github %}
+                        <a href="{{ about.github }}" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span class="tooltip">GitHub</span>
+                        </a>
+                    {% endif %}
+                    {% if about.linkedin %}
+                        <a href="{{ about.linkedin }}" class="social-link" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                            <span class="tooltip">LinkedIn</span>
+                        </a>
+                    {% endif %}
+                    {% if about.email %}
+                        <a href="mailto:{{ about.email }}" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                            <span class="tooltip">Email</span>
+                        </a>
+                    {% endif %}
+                </div>
+                
+                {% if about.resume %}
+                    <a href="{{ about.resume.url }}" class="download-cv" target="_blank">
+                        <span class="icon"><i class="fas fa-download"></i></span>
+                        <span class="text">Download CV</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

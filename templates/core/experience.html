@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load custom_filters %}
+
+{% block title %}Experience{% endblock %}
+
+{% block content %}
+<div class="experience-section">
+    <div class="experience-container">
+        <div class="section-header" data-aos="fade-down">
+            <div class="section-title">
+                <span class="bracket">[</span>
+                <h1>Work Experience</h1>
+                <span class="bracket">]</span>
+            </div>
+        </div>
+
+        <div class="timeline">
+            {% for exp in experiences %}
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="time-badge">
+                            {{ exp.start_date|date:"M Y" }} - 
+                            {% if exp.current %}
+                                Present
+                            {% else %}
+                                {{ exp.end_date|date:"M Y" }}
+                            {% endif %}
+                        </div>
+                        <h3>{{ exp.position }}</h3>
+                        <h4>{{ exp.company }}</h4>
+                        <p>{{ exp.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% load custom_filters %}
+
+{% block title %}Skills{% endblock %}
+
+{% block content %}
+<div class="skills-section">
+    <div class="skills-container">
+        <div class="section-header" data-aos="fade-down">
+            <div class="section-title">
+                <span class="bracket">{</span>
+                <h1>Skills & Expertise</h1>
+                <span class="bracket">}</span>
+            </div>
+        </div>
+
+        <div class="skills-grid">
+            {% for category in skill_categories %}
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                    <div class="category-header">
+                        <i class="fas {{ category.icon }}"></i>
+                        <h2>{{ category.name }}</h2>
+                    </div>
+                    <div class="skills-list">
+                        {% for skill in category.skills.all %}
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">{{ skill.name }}</span>
+                                    <span class="skill-percentage">{{ skill.percentage }}%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div class="skill-bar" data-percentage="{{ skill.percentage }}">
+                                        <div class="skill-progress"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bar = entry.target;
+                const percentage = bar.dataset.percentage;
+                const progress = bar.querySelector('.skill-progress');
+                progress.style.width = percentage + '%';
+                progress.style.opacity = '1';
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.skill-bar').forEach(bar => {
+        observer.observe(bar);
+    });
+});
+</script>
+{% endblock %} 
