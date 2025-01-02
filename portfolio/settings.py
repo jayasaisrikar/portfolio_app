@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -188,3 +189,5 @@ SESSION_COOKIE_SECURE = False
 
 # Add your Hugging Face API key (it's free)
 HUGGINGFACE_API_KEY = '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'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
