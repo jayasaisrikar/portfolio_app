@@ -1,6 +1,5 @@
 {
     "version": 2,
-    "framework": "django",
     "builds": [
         {
             "src": "portfolio/wsgi.py",
