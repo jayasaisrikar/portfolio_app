@@ -82,10 +82,14 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
+        default='postgresql://postgres:postgres@localhost:5432/portfolio',
         conn_max_age=600
     )
 }
+
+# Disable database during static collection
+if os.environ.get('DISABLE_DATABASE', False):
+    DATABASES = {}
 
 
 # Password validation
