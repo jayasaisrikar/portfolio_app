@@ -1,4 +1,8 @@
 {
+    "version": 2,
+    "framework": "other",
+    "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
+    "outputDirectory": "staticfiles",
     "builds": [
         {
             "src": "portfolio/wsgi.py",
