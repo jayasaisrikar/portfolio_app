@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "framework": "django",
     "builds": [
         {
             "src": "portfolio/wsgi.py",
@@ -7,6 +8,13 @@
             "config": { 
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9"
+            }
+        },
+        {
+            "src": "build.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles"
             }
         }
     ],
@@ -22,6 +30,7 @@
     ],
     "env": {
         "DJANGO_SETTINGS_MODULE": "portfolio.settings",
-        "PYTHONPATH": "."
+        "PYTHONPATH": ".",
+        "DEBUG": "False"
     }
 } 
