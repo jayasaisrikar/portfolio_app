@@ -23,7 +23,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "portfolio/wsgi.application"
+            "dest": "portfolio/wsgi.py"
         }
     ]
 } 
