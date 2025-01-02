@@ -193,3 +193,15 @@ SESSION_COOKIE_SECURE = True
 
 # Add your Hugging Face API key (it's free)
 HUGGINGFACE_API_KEY = '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'
+
+# Media files handling for Vercel
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+# Message settings
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

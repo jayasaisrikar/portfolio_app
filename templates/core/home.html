@@ -32,38 +32,44 @@
         </div>
     </div>
     <div class="live-projects-grid">
-        {% for project in live_projects %}
-            <div class="project-card glass" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
-                <div class="project-content">
-                    <div class="project-image">
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
-                        <div class="project-overlay">
-                            <div class="project-links">
-                                {% if project.url %}
-                                    <a href="{{ project.url }}" target="_blank" class="project-link">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                {% endif %}
-                                {% if project.github_url %}
-                                    <a href="{{ project.github_url }}" target="_blank" class="project-link">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                {% endif %}
+        {% if live_projects %}
+            {% for project in live_projects %}
+                <div class="project-card glass" data-aos="fade-up" data-aos-delay="{{ forloop.counter|multiply:100 }}">
+                    <div class="project-content">
+                        <div class="project-image">
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    {% if project.url %}
+                                        <a href="{{ project.url }}" target="_blank" class="project-link">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if project.github_url %}
+                                        <a href="{{ project.github_url }}" target="_blank" class="project-link">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.description }}</p>
+                            <div class="project-tech">
+                                {% for tech in project.technologies.all %}
+                                    <span class="tech-tag">{{ tech.name }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                    <div class="project-info">
-                        <h3>{{ project.title }}</h3>
-                        <p>{{ project.description }}</p>
-                        <div class="project-tech">
-                            {% for tech in project.technologies.all %}
-                                <span class="tech-tag">{{ tech.name }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
                 </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-projects">
+                <p>No projects available at the moment.</p>
             </div>
-        {% endfor %}
+        {% endif %}
     </div>
     <div class="view-all-button" data-aos="fade-up">
         <a href="{% url 'projects' %}" class="cta-button">

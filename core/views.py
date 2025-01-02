@@ -5,41 +5,33 @@ from django.http import JsonResponse
 import requests
 from huggingface_hub import InferenceClient
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 def home(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        
-        Contact.objects.create(
-            name=name,
-            email=email,
-            subject=subject,
-            message=message
-        )
-        messages.success(request, 'Message sent successfully!')
-        return redirect('home')
-
-    context = {
-        'live_projects': Project.objects.filter(is_live=True).order_by('-created_at')[:3],
-    }
+    try:
+        context = {
+            'live_projects': Project.objects.filter(is_live=True).order_by('-created_at')[:3],
+        }
+    except Exception:
+        context = {'live_projects': []}
     return render(request, 'core/home.html', context)
 
 def about(request):
-    about_obj = About.objects.first()
-    print("About:", about_obj)  # Debug print
-    context = {
-        'about': about_obj,
-    }
+    try:
+        about_obj = About.objects.first()
+        context = {'about': about_obj}
+    except Exception:
+        context = {'about': None}
     return render(request, 'core/about.html', context)
 
 def projects(request):
-    context = {
-        'projects': Project.objects.all(),
-        'technologies': Technology.objects.all(),
-    }
+    try:
+        context = {
+            'projects': Project.objects.all(),
+            'technologies': Technology.objects.all(),
+        }
+    except Exception:
+        context = {'projects': [], 'technologies': []}
     return render(request, 'core/projects.html', context)
 
 def skills(request):
