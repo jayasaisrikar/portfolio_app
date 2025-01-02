@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
+    )
 }
 
 
@@ -139,6 +139,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True  # Only for development
 CORS_ALLOWED_ORIGINS = [
+    "https://*.vercel.app",
+    "https://*.now.sh",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
@@ -148,18 +150,13 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',
+        'console': {
+            'class': 'logging.StreamHandler',
         },
     },
-    'loggers': {
-        'core': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
     },
 }
 
@@ -185,12 +182,10 @@ FILE_UPLOAD_HANDLERS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app',
     'https://*.now.sh',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000'
 ]
 
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Add your Hugging Face API key (it's free)
 HUGGINGFACE_API_KEY = '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'
