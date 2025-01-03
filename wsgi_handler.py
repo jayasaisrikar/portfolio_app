@@ -17,5 +17,9 @@ application = get_wsgi_application()
 application = WhiteNoise(
     application,
     root=os.path.join(settings.BASE_DIR, 'staticfiles'),
-    prefix='static/'
+    prefix='/'
 )
+
+# Add files from STATICFILES_DIRS
+for static_dir in settings.STATICFILES_DIRS:
+    application.add_files(static_dir, prefix='static/')
