@@ -6,6 +6,9 @@ import requests
 from huggingface_hub import InferenceClient
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+import logging
+
+logger = logging.getLogger(__name__)
 
 def home(request):
     try:
@@ -15,11 +18,10 @@ def home(request):
             if project.image:
                 project.image.url = request.build_absolute_uri(project.image.url)
         context = {'live_projects': projects}
+        return render(request, 'core/home.html', context)
     except Exception as e:
-        if settings.DEBUG:
-            print(f"Error in home view: {e}")
-        context = {'live_projects': []}
-    return render(request, 'core/home.html', context)
+        logger.error(f"Error in home view: {str(e)}")
+        return render(request, 'core/home.html', {'live_projects': []})
 
 def about(request):
     try:
@@ -75,7 +77,6 @@ def chatbot_response(request):
                 techs = ", ".join([tech.name for tech in project.technologies.all()])
                 projects_context += f"\n- {project.title}: {project.description} (Technologies: {techs})"
 
-            # Handle different types of queries
             if any(greeting in message for greeting in ['hi', 'hello', 'hey', 'how are you']):
                 return JsonResponse({
                     'response': "Hello! I'm doing well, thank you for asking. I'm here to help you learn about Jaya's portfolio. Would you like to know about his projects, skills, or experience?"
@@ -83,35 +84,36 @@ def chatbot_response(request):
                 
             elif 'project' in message:
                 return JsonResponse({
-                    'response': f"Here are Jaya's notable projects:{projects_context}"
+                    'response': f"Here are some of my projects:{projects_context}"
                 })
                 
             elif 'skill' in message:
                 return JsonResponse({
-                    'response': f"Here are Jaya's skills by category:{skills_context}"
+                    'response': f"Here are my skills by category:{skills_context}"
                 })
                 
             elif 'experience' in message or 'work' in message:
                 experiences = Experience.objects.all().order_by('-start_date')
                 exp_text = "\n".join([f"- {exp.position} at {exp.company}" for exp in experiences])
                 return JsonResponse({
-                    'response': f"Here's Jaya's work experience:\n{exp_text}"
+                    'response': f"Here's my work experience:\n{exp_text}"
                 })
                 
             elif 'contact' in message or 'email' in message:
                 return JsonResponse({
-                    'response': f"You can contact Jaya via email at {about.email if about and about.email else 'the contact form on this website'}. You can also find him on LinkedIn and GitHub through the links in the About section."
+                    'response': f"You can contact me via email at {about.email if about and about.email else 'the contact form on this website'}. You can also find me on LinkedIn and GitHub through the links in the About section."
                 })
                 
             else:
                 return JsonResponse({
-                    'response': "I can tell you about Jaya's projects, skills, work experience, or how to contact him. What would you like to know?"
+                    'response': "I can tell you about my projects, skills, work experience, or how to contact me. What would you like to know?"
                 })
                 
         except Exception as e:
-            print(f"Chatbot Error: {str(e)}")
+            logger.error(f"Chatbot Error: {str(e)}")
             return JsonResponse({
-                'response': "I'm here to help! Would you like to know about Jaya's projects, skills, or experience?"
+                'error': True,
+                'response': "Sorry, I encountered an error. Please try again."
             })
-            
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+    return JsonResponse({'error': True, 'response': 'Invalid request method'}, status=400)

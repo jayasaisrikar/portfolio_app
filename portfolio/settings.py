@@ -83,12 +83,28 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:' if os.environ.get('VERCEL_ENV') else os.path.join(BASE_DIR, 'db.sqlite3'),
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': ':memory:' if os.environ.get('VERCEL_ENV') else os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# Update Database configuration
+if os.environ.get('VERCEL_ENV'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Override with DATABASE_URL if provided
 if os.environ.get('DATABASE_URL'):
@@ -160,6 +176,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Logging configuration
+# Add to your settings.py
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -170,10 +187,16 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
+            'propagate': False,
+        },
     },
 }
-
 # Cache settings
 CACHES = {
     'default': {
