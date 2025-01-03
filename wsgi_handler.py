@@ -3,6 +3,7 @@ from django.core.wsgi import get_wsgi_application
 from django.core.management import execute_from_command_line
 import django
 from django.contrib.auth.models import User
+import time
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio.settings')
 
@@ -10,7 +11,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio.settings')
 django.setup()
 
 try:
-    # Run migrations
+    # Run makemigrations and migrate
+    execute_from_command_line(['manage.py', 'makemigrations', 'core'])
+    time.sleep(2)  # Give some time for the migrations to be created
     execute_from_command_line(['manage.py', 'migrate'])
     
     # Create superuser if it doesn't exist

@@ -33,15 +33,18 @@ def about(request):
 
 def projects(request):
     try:
+        projects = Project.objects.all()
+        technologies = Technology.objects.all()
         context = {
-            'projects': Project.objects.all(),
-            'technologies': Technology.objects.all(),
+            'projects': projects,
+            'technologies': technologies,
         }
     except Exception as e:
         logger.error(f"Error in projects view: {str(e)}")
         context = {
             'projects': [],
-            'technologies': []
+            'technologies': [],
+            'error_message': 'Unable to load projects at this time.'
         }
     return render(request, 'core/projects.html', context)
 
