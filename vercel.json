@@ -8,7 +8,7 @@
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9",
                 "installCommand": "pip install -r requirements.txt",
-                "buildCommand": "python manage.py collectstatic --noinput --clear && python manage.py migrate"
+                "buildCommand": "python manage.py collectstatic --noinput"
             }
         }
     ],
@@ -27,11 +27,10 @@
         "PYTHON_VERSION": "3.9",
         "DEBUG": "False",
         "DJANGO_SETTINGS_MODULE": "portfolio.settings",
-        "POSTGRES_URL_NON_POOLING": "@postgres-url-non-pooling",
-        "POSTGRES_USER": "@postgres-user",
-        "POSTGRES_PASSWORD": "@postgres-password",
-        "POSTGRES_HOST": "@postgres-host",
-        "POSTGRES_DATABASE": "@postgres-database",
-        "SECRET_KEY": "@secret-key"
+        "POSTGRES_DATABASE": "postgres",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "ev6hHwpscG6LyrNM",
+        "POSTGRES_HOST": "db.urbtwjgbmyogclnqanwx.supabase.co",
+        "SECRET_KEY": "your-secret-key-here"
     }
 }
