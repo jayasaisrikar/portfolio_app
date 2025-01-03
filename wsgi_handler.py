@@ -3,16 +3,13 @@ from django.core.wsgi import get_wsgi_application
 from whitenoise import WhiteNoise
 from django.conf import settings
 import django
-from django.core.management import execute_from_command_line
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio.settings')
 django.setup()
 
-try:
-    execute_from_command_line(['manage.py', 'migrate'])
-except Exception as e:
-    print(f"Migration error: {str(e)}")
-
 application = get_wsgi_application()
-application = WhiteNoise(application, root=settings.STATIC_ROOT)
-application.add_files(settings.STATIC_ROOT, prefix='static/')
+
+# Configure WhiteNoise
+if not settings.DEBUG:
+    application = WhiteNoise(application, root=settings.STATIC_ROOT)
+    application.add_files(settings.STATIC_ROOT, prefix='static/')
