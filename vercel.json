@@ -8,18 +8,14 @@
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9",
                 "installCommand": "python3.9 -m pip install --upgrade pip && python3.9 -m pip install -r requirements.txt",
-                "buildCommand": "python3.9 manage.py collectstatic --noinput && python3.9 manage.py migrate"
+                "buildCommand": "python3.9 manage.py collectstatic --noinput"
             }
-        },
-        {
-            "src": "static/**",
-            "use": "@vercel/static"
         }
     ],
     "routes": [
         {
             "src": "/static/(.*)",
-            "dest": "/staticfiles/$1"
+            "dest": "/static/$1"
         },
         {
             "src": "/(.*)",
@@ -28,12 +24,8 @@
     ],
     "env": {
         "PYTHON_VERSION": "3.9",
-        "DEBUG": "True",
+        "DEBUG": "False",
         "DJANGO_SETTINGS_MODULE": "portfolio.settings",
-        "POSTGRES_DATABASE": "@postgres-database",
-        "POSTGRES_USER": "@postgres-user",
-        "POSTGRES_PASSWORD": "@postgres-password",
-        "POSTGRES_HOST": "@postgres-host",
-        "POSTGRES_PORT": "@postgres-port"
+        "DATABASE_URL": "@database-url"
     }
 }

@@ -83,38 +83,14 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': ':memory:' if os.environ.get('VERCEL_ENV') else os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 # Database configuration
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DATABASE'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
-    }
-}
-
-# Run migrations for in-memory database
-if os.environ.get('VERCEL_ENV'):
-    import django
-    django.setup()
-    from django.core.management import execute_from_command_line
-    execute_from_command_line(['manage.py', 'migrate'])
-
-# Override with DATABASE_URL if provided
-if os.environ.get('DATABASE_URL'):
-    DATABASES['default'] = dj_database_url.config(
+    'default': dj_database_url.config(
+        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
         conn_max_age=600,
         conn_health_checks=True,
     )
+}
 
 # Disable database during static collection
 if os.environ.get('DISABLE_DATABASE', False):
