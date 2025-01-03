@@ -37,8 +37,12 @@ def projects(request):
             'projects': Project.objects.all(),
             'technologies': Technology.objects.all(),
         }
-    except Exception:
-        context = {'projects': [], 'technologies': []}
+    except Exception as e:
+        logger.error(f"Error in projects view: {str(e)}")
+        context = {
+            'projects': [],
+            'technologies': []
+        }
     return render(request, 'core/projects.html', context)
 
 def skills(request):
@@ -77,37 +81,15 @@ def chatbot_response(request):
                 techs = ", ".join([tech.name for tech in project.technologies.all()])
                 projects_context += f"\n- {project.title}: {project.description} (Technologies: {techs})"
 
-            if any(greeting in message for greeting in ['hi', 'hello', 'hey', 'how are you']):
-                return JsonResponse({
-                    'response': "Hello! I'm doing well, thank you for asking. I'm here to help you learn about Jaya's portfolio. Would you like to know about his projects, skills, or experience?"
-                })
-                
-            elif 'project' in message:
+            if 'project' in message:
                 return JsonResponse({
                     'response': f"Here are some of my projects:{projects_context}"
                 })
-                
-            elif 'skill' in message:
-                return JsonResponse({
-                    'response': f"Here are my skills by category:{skills_context}"
-                })
-                
-            elif 'experience' in message or 'work' in message:
-                experiences = Experience.objects.all().order_by('-start_date')
-                exp_text = "\n".join([f"- {exp.position} at {exp.company}" for exp in experiences])
-                return JsonResponse({
-                    'response': f"Here's my work experience:\n{exp_text}"
-                })
-                
-            elif 'contact' in message or 'email' in message:
-                return JsonResponse({
-                    'response': f"You can contact me via email at {about.email if about and about.email else 'the contact form on this website'}. You can also find me on LinkedIn and GitHub through the links in the About section."
-                })
-                
-            else:
-                return JsonResponse({
-                    'response': "I can tell you about my projects, skills, work experience, or how to contact me. What would you like to know?"
-                })
+            
+            # Add other response conditions here
+            return JsonResponse({
+                'response': "I can tell you about my projects, skills, work experience, or how to contact me. What would you like to know?"
+            })
                 
         except Exception as e:
             logger.error(f"Chatbot Error: {str(e)}")
