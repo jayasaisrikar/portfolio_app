@@ -20,7 +20,7 @@ try:
         User.objects.create_superuser(
             username='admin',
             email='admin@example.com',
-            password=os.environ.get('ADMIN_PASSWORD', 'admin')
+            password=os.environ.get('POSTGRES_PASSWORD')
         )
 except Exception as e:
     print(f"Error creating superuser: {e}")

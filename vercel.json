@@ -27,11 +27,11 @@
         "PYTHON_VERSION": "3.9",
         "DEBUG": "False",
         "DJANGO_SETTINGS_MODULE": "portfolio.settings",
-        "POSTGRES_DATABASE": "@postgres-database",
+        "POSTGRES_URL_NON_POOLING": "@postgres-url-non-pooling",
         "POSTGRES_USER": "@postgres-user",
         "POSTGRES_PASSWORD": "@postgres-password",
         "POSTGRES_HOST": "@postgres-host",
-        "POSTGRES_PORT": "@postgres-port",
-        "ADMIN_PASSWORD": "@admin-password"
+        "POSTGRES_DATABASE": "@postgres-database",
+        "SECRET_KEY": "@secret-key"
     }
 }
