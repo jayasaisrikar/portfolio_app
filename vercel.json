@@ -8,7 +8,7 @@
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9",
                 "installCommand": "pip install -r requirements.txt",
-                "buildCommand": "python manage.py collectstatic --noinput --clear"
+                "buildCommand": "python manage.py collectstatic --noinput --clear && python manage.py migrate"
             }
         }
     ],
@@ -16,7 +16,7 @@
         {
             "src": "/static/(.*)",
             "headers": { "cache-control": "public, max-age=31536000, immutable" },
-            "dest": "/static/$1"
+            "dest": "/staticfiles/$1"
         },
         {
             "src": "/(.*)",
@@ -25,8 +25,13 @@
     ],
     "env": {
         "PYTHON_VERSION": "3.9",
-        "DEBUG": "True",
+        "DEBUG": "False",
         "DJANGO_SETTINGS_MODULE": "portfolio.settings",
-        "DISABLE_COLLECTSTATIC": "0"
+        "POSTGRES_DATABASE": "@postgres-database",
+        "POSTGRES_USER": "@postgres-user",
+        "POSTGRES_PASSWORD": "@postgres-password",
+        "POSTGRES_HOST": "@postgres-host",
+        "POSTGRES_PORT": "@postgres-port",
+        "ADMIN_PASSWORD": "@admin-password"
     }
 }
