@@ -1,2 +1,2 @@
-from portfolio.wsgi import application
+from wsgi_handler import application
 app = application 

@@ -90,21 +90,20 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 #     }
 # }
 
-# Update Database configuration
+# Database configuration
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:' if os.environ.get('VERCEL_ENV') else os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# Run migrations for in-memory database
 if os.environ.get('VERCEL_ENV'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:',
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+    import django
+    django.setup()
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(['manage.py', 'migrate'])
 
 # Override with DATABASE_URL if provided
 if os.environ.get('DATABASE_URL'):
