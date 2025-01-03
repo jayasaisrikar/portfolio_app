@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio.settings')
 application = get_wsgi_application()
-
 try:
     django.setup()
     execute_from_command_line(['manage.py', 'migrate'])
