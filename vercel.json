@@ -8,14 +8,13 @@
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9",
                 "installCommand": "pip install -r requirements.txt",
-                "buildCommand": "python manage.py collectstatic --noinput --clear"
+                "buildCommand": "python manage.py collectstatic --noinput --clear && python manage.py migrate"
             }
         }
     ],
     "routes": [
         {
             "src": "/static/(.*)",
-            "headers": { "cache-control": "public, max-age=31536000, immutable" },
             "dest": "/staticfiles/$1"
         },
         {
@@ -31,6 +30,7 @@
         "POSTGRES_USER": "postgres",
         "POSTGRES_PASSWORD": "ev6hHwpscG6LyrNM",
         "POSTGRES_HOST": "db.urbtwjgbmyogclnqanwx.supabase.co",
-        "SECRET_KEY": "django-insecure-s3cr3t-k3y-f0r-pr0duct!0n"
+        "SECRET_KEY": "django-insecure-s3cr3t-k3y-f0r-pr0duct!0n",
+        "DISABLE_COLLECTSTATIC": "0"
     }
 }
