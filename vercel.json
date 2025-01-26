@@ -31,6 +31,10 @@
             "src": "/(.*)",
             "dest": "portfolio/wsgi.py"
         }
-    ]
-    
+    ],
+    "env": {
+        "PYTHON_VERSION": "3.9",
+        "DEBUG": "False",
+        "DJANGO_SETTINGS_MODULE": "portfolio.settings"
+    }
 }
