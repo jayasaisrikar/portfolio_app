@@ -1,46 +1,19 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "portfolio/wsgi.py",
-            "use": "@vercel/python",
-            "config": { 
-                "maxLambdaSize": "15mb",
-                "runtime": "python3.9",
-                "installCommand": "pip install -r requirements.txt",
-                "buildCommand": "python manage.py collectstatic --noinput"
-            }
-        },
-        {
-            "src": "media/**",
-            "use": "@vercel/static"
-        }
+      {
+        "src": "portfolio_project/wsgi.py",
+        "use": "@vercel/python"
+      }
     ],
     "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/staticfiles/$1",
-            "headers": { "cache-control": "public, max-age=31536000, immutable" }
-        },
-        {
-            "src": "/media/(.*)",
-            "dest": "/media/$1",
-            "headers": { "cache-control": "public, max-age=31536000, immutable" }
-        },
-        {
-            "src": "/(.*)",
-            "dest": "portfolio/wsgi.py"
-        }
-    ],
-    "env": {
-        "PYTHON_VERSION": "3.9",
-        "DEBUG": "False",
-        "DJANGO_SETTINGS_MODULE": "portfolio.settings",
-        "POSTGRES_DATABASE": "postgres",
-        "POSTGRES_USER": "postgres",
-        "POSTGRES_PASSWORD": "ev6hHwpscG6LyrNM",
-        "POSTGRES_HOST": "db.urbtwjgbmyogclnqanwx.supabase.co",
-        "SECRET_KEY": "django-insecure-s3cr3t-k3y-f0r-pr0duct!0n",
-        "DISABLE_COLLECTSTATIC": "0"
-    }
-}
+      {
+        "src": "/static/(.*)",
+        "dest": "/static/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "portfolio_project/wsgi.py"
+      }
+    ]
+  }
