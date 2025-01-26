@@ -13,10 +13,9 @@ logger = logging.getLogger(__name__)
 def home(request):
     try:
         projects = Project.objects.filter(is_live=True).order_by('-created_at')[:3]
-        # Convert image URLs to absolute URLs if they exist
         for project in projects:
             if project.image:
-                project.image.url = request.build_absolute_uri(project.image.url)
+                project.image_url = f'/media/{project.image.name}'
         context = {'live_projects': projects}
         return render(request, 'core/home.html', context)
     except Exception as e:

@@ -15,10 +15,13 @@ class About(models.Model):
     def __str__(self):
         return self.title
 
+def project_image_path(instance, filename):
+    return f'projects/{filename}'
+
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/')
+    image = models.ImageField(upload_to=project_image_path)
     url = models.URLField(blank=True)
     github_url = models.URLField(blank=True)
     is_live = models.BooleanField(default=False)
