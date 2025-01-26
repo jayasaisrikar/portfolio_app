@@ -8,7 +8,7 @@
                 "maxLambdaSize": "15mb",
                 "runtime": "python3.9",
                 "installCommand": "pip install -r requirements.txt",
-                "buildCommand": "mkdir -p media && python manage.py collectstatic --noinput"
+                "buildCommand": "python manage.py collectstatic --noinput"
             }
         },
         {
@@ -19,7 +19,8 @@
     "routes": [
         {
             "src": "/static/(.*)",
-            "dest": "/staticfiles/$1"
+            "dest": "/staticfiles/$1",
+            "headers": { "cache-control": "public, max-age=31536000, immutable" }
         },
         {
             "src": "/media/(.*)",

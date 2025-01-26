@@ -25,8 +25,12 @@ wheels/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media/
-staticfiles/
+media/*
+!media/.gitkeep
+static/*
+!static/.gitkeep
+staticfiles/*
+!staticfiles/.gitkeep
 
 # Virtual Environment
 venv/
@@ -63,4 +67,15 @@ debug.log
 *.db
 
 # Local development settings
-local_settings.py 
+local_settings.py
+
+*.pyc
+__pycache__
+db.sqlite3
+/static/*
+!/static/.gitkeep
+/media/*
+!/media/.gitkeep
+/staticfiles/*
+!/staticfiles/.gitkeep
+.env 

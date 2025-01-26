@@ -11,7 +11,8 @@ application = get_wsgi_application()
 application = WhiteNoise(application)
 
 # Add static files
-application.add_files(settings.STATIC_ROOT, prefix='static/')
+if os.path.exists(settings.STATIC_ROOT):
+    application.add_files(settings.STATIC_ROOT, prefix='static/')
 
 # Add media files
 if os.path.exists(settings.MEDIA_ROOT):
